@@ -12,7 +12,7 @@ const About = () => {
     },
     { 
       name: "TypeScript", 
-      level: 85, 
+      level: 84, 
       color: "from-blue-500 to-blue-600",
       logo: "🔷",
       description: "Type safety, Advanced generics, Enterprise apps"
