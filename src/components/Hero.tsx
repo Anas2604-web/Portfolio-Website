@@ -29,14 +29,14 @@ const Hero = () => {
         <div className="text-center">
           <div className="mb-8">
             <img
-              src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face"
+              src="public/profile2.png" 
               alt="Profile"
               className="hero-image w-32 h-32 rounded-full mx-auto mb-6 border-4 border-white dark:border-gray-700 shadow-2xl"
             />
           </div>
           
           <h1 className="hero-title text-5xl md:text-6xl font-bold text-gray-800 dark:text-white mb-6">
-            Hi, I'm <span className="text-blue-600 dark:text-blue-400 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 dark:from-blue-400 dark:via-purple-400 dark:to-pink-400 bg-clip-text text-transparent">John Doe</span>
+            Hi, I'm <span className="text-blue-600 dark:text-blue-400 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 dark:from-blue-400 dark:via-purple-400 dark:to-pink-400 bg-clip-text text-transparent">Anas Khan</span>
           </h1>
           
           <p className="hero-subtitle text-xl md:text-2xl text-gray-600 dark:text-gray-300 mb-8">

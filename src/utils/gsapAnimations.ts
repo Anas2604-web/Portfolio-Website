@@ -68,7 +68,7 @@ export const initGSAPAnimations = () => {
   });
 };
 
-export const initScrollAnimations = () => {
+  export const initScrollAnimations = () => {
   // About section animations
   gsap.from(".about-title", {
     y: 80,
@@ -77,8 +77,9 @@ export const initScrollAnimations = () => {
     ease: "power3.out",
     scrollTrigger: {
       trigger: ".about-title",
-      start: "top 80%",
-      toggleActions: "play none none reverse"
+      start: "top 90%", // only triggers when scrolled into view
+      toggleActions: "play none none none",
+      immediateRender: false,
     }
   });
 
@@ -90,8 +91,9 @@ export const initScrollAnimations = () => {
     stagger: 0.2,
     scrollTrigger: {
       trigger: ".about-content",
-      start: "top 80%",
-      toggleActions: "play none none reverse"
+      start: "top 90%",
+      toggleActions: "play none none none",
+      immediateRender: false,
     }
   });
 
@@ -103,10 +105,13 @@ export const initScrollAnimations = () => {
     stagger: 0.05,
     scrollTrigger: {
       trigger: ".skill-tag",
-      start: "top 85%",
-      toggleActions: "play none none reverse"
+      start: "top 90%",
+      toggleActions: "play none none none",
+      immediateRender: false,
     }
   });
+};
+
 
   // Projects section animations
   gsap.from(".project-card", {
@@ -136,7 +141,7 @@ export const initScrollAnimations = () => {
       toggleActions: "play none none reverse"
     }
   });
-};
+
 
 export const addHoverAnimations = () => {
   // Project card hover effects
