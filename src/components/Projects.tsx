@@ -2,6 +2,7 @@ import { Github, Link, Star, Eye, GitFork } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { useEffect } from "react";
 
 const Projects = () => {
   const projects = [
@@ -82,6 +83,15 @@ const Projects = () => {
   const featuredProjects = projects.filter(project => project.featured);
   const otherProjects = projects.filter(project => !project.featured);
 
+  useEffect(() => {
+    // Force re-trigger GSAP animations after component mounts
+    setTimeout(() => {
+      const { initScrollAnimations, addHoverAnimations } = require("@/utils/gsapAnimations");
+      initScrollAnimations();
+      addHoverAnimations();
+    }, 100);
+  }, []);
+
   const getStatusColor = (status: string) => {
     switch (status) {
       case "Completed": return "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400";
@@ -100,7 +110,7 @@ const Projects = () => {
   };
 
   const ProjectCard = ({ project, featured = false }: { project: any, featured?: boolean }) => (
-    <Card className={`project-card overflow-hidden bg-white dark:bg-slate-800 border-gray-200 dark:border-gray-700 shadow-xl hover:shadow-2xl transition-all duration-300 ${featured ? 'md:col-span-2' : ''}`}>
+    <Card className={`project-card overflow-hidden bg-white dark:bg-slate-800 border-gray-200 dark:border-gray-700 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 ${featured ? 'md:col-span-2 lg:col-span-2' : ''}`}>
       <div className="project-image relative overflow-hidden group">
         <img
           src={project.image}
@@ -118,7 +128,7 @@ const Projects = () => {
         </div>
         {project.featured && (
           <div className="absolute top-4 right-4">
-            <Badge className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white">
+            <Badge className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white animate-pulse">
               ⭐ Featured
             </Badge>
           </div>
@@ -130,15 +140,15 @@ const Projects = () => {
             {project.title}
           </h3>
           <div className="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400">
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-1 hover:text-yellow-500 transition-colors">
               <Star size={14} />
               <span>{project.stats.stars}</span>
             </div>
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-1 hover:text-blue-500 transition-colors">
               <GitFork size={14} />
               <span>{project.stats.forks}</span>
             </div>
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-1 hover:text-green-500 transition-colors">
               <Eye size={14} />
               <span>{project.stats.views}</span>
             </div>
@@ -151,7 +161,7 @@ const Projects = () => {
           {project.technologies.map((tech: string, techIndex: number) => (
             <span
               key={techIndex}
-              className="skill-tag bg-gradient-to-r from-gray-100 to-blue-100 dark:from-gray-700 dark:to-blue-900/50 text-gray-700 dark:text-gray-300 px-3 py-1 rounded-full text-xs font-medium hover:from-blue-100 hover:to-purple-100 dark:hover:from-blue-900/50 dark:hover:to-purple-900/50 transition-all duration-200 border border-gray-200 dark:border-gray-600"
+              className="skill-tag bg-gradient-to-r from-gray-100 to-blue-100 dark:from-gray-700 dark:to-blue-900/50 text-gray-700 dark:text-gray-300 px-3 py-1 rounded-full text-xs font-medium hover:from-blue-100 hover:to-purple-100 dark:hover:from-blue-900/50 dark:hover:to-purple-900/50 transition-all duration-200 border border-gray-200 dark:border-gray-600 hover:scale-105 cursor-default"
             >
               {tech}
             </span>
@@ -161,7 +171,7 @@ const Projects = () => {
           <Button
             variant="outline"
             size="sm"
-            className="gsap-button flex items-center space-x-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200 border-gray-300 dark:border-gray-600"
+            className="gsap-button flex items-center space-x-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200 border-gray-300 dark:border-gray-600 hover:scale-105"
             onClick={() => window.open(project.github, '_blank')}
           >
             <Github size={16} />
@@ -169,7 +179,7 @@ const Projects = () => {
           </Button>
           <Button
             size="sm"
-            className="gsap-button flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 dark:from-blue-500 dark:to-purple-500 dark:hover:from-blue-600 dark:hover:to-purple-600 transition-all duration-200 shadow-lg hover:shadow-xl"
+            className="gsap-button flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 dark:from-blue-500 dark:to-purple-500 dark:hover:from-blue-600 dark:hover:to-purple-600 transition-all duration-200 shadow-lg hover:shadow-xl hover:scale-105"
             onClick={() => window.open(project.live, '_blank')}
           >
             <Link size={16} />
@@ -181,7 +191,7 @@ const Projects = () => {
   );
 
   return (
-    <section id="projects" className="py-20 bg-gradient-to-br from-gray-50 to-blue-50 dark:from-slate-900 dark:to-blue-900 transition-colors duration-300 relative overflow-hidden">
+    <section id="projects" className="py-20 bg-gradient-to-br from-gray-50 to-blue-50 dark:from-slate-900 dark:to-blue-900 transition-colors duration-300 relative overflow-hidden min-h-screen">
       {/* Enhanced background decoration */}
       <div className="absolute inset-0 opacity-30">
         <div className="absolute top-20 left-10 w-96 h-96 bg-gradient-to-br from-blue-400 to-purple-600 rounded-full mix-blend-multiply filter blur-3xl animate-pulse"></div>
@@ -191,10 +201,10 @@ const Projects = () => {
       
       <div className="container mx-auto px-6 max-w-7xl relative z-10">
         <div className="text-center mb-16">
-          <h2 className="about-title text-4xl md:text-5xl font-bold text-gray-800 dark:text-white mb-6">
+          <h2 className="about-title text-4xl md:text-5xl font-bold text-gray-800 dark:text-white mb-6 animate-fade-in">
             Featured <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">Projects</span>
           </h2>
-          <p className="about-content text-gray-600 dark:text-gray-300 max-w-3xl mx-auto text-lg">
+          <p className="about-content text-gray-600 dark:text-gray-300 max-w-3xl mx-auto text-lg animate-fade-in animate-delay-200">
             Here's a showcase of my recent work, demonstrating proficiency in modern web technologies, 
             clean code practices, and user-centered design principles.
           </p>
@@ -202,31 +212,35 @@ const Projects = () => {
 
         {/* Featured Projects */}
         <div className="mb-16">
-          <h3 className="about-title text-2xl font-semibold text-gray-800 dark:text-white mb-8 text-center">
+          <h3 className="about-title text-2xl font-semibold text-gray-800 dark:text-white mb-8 text-center animate-fade-in animate-delay-300">
             🌟 Featured Work
           </h3>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {featuredProjects.map((project, index) => (
-              <ProjectCard key={index} project={project} featured={true} />
+              <div key={index} className="animate-fade-in" style={{ animationDelay: `${0.4 + index * 0.1}s` }}>
+                <ProjectCard project={project} featured={true} />
+              </div>
             ))}
           </div>
         </div>
 
         {/* Other Projects */}
-        <div>
-          <h3 className="about-title text-2xl font-semibold text-gray-800 dark:text-white mb-8 text-center">
+        <div className="mb-16">
+          <h3 className="about-title text-2xl font-semibold text-gray-800 dark:text-white mb-8 text-center animate-fade-in animate-delay-700">
             💼 More Projects
           </h3>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {otherProjects.map((project, index) => (
-              <ProjectCard key={index} project={project} />
+              <div key={index} className="animate-fade-in" style={{ animationDelay: `${0.8 + index * 0.1}s` }}>
+                <ProjectCard project={project} />
+              </div>
             ))}
           </div>
         </div>
 
         {/* Call to Action */}
-        <div className="about-content text-center mt-16">
-          <div className="bg-gradient-to-r from-blue-50 via-purple-50 to-pink-50 dark:from-blue-900/20 dark:via-purple-900/20 dark:to-pink-900/20 rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 border border-gray-200 dark:border-gray-700">
+        <div className="about-content text-center animate-fade-in animate-delay-1000">
+          <div className="bg-gradient-to-r from-blue-50 via-purple-50 to-pink-50 dark:from-blue-900/20 dark:via-purple-900/20 dark:to-pink-900/20 rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 border border-gray-200 dark:border-gray-700 hover:scale-105">
             <h3 className="text-2xl font-semibold text-gray-800 dark:text-white mb-4">
               Want to see more of my work?
             </h3>
@@ -234,7 +248,7 @@ const Projects = () => {
               Check out my GitHub profile for more projects, contributions, and open-source work.
             </p>
             <Button
-              className="gsap-button bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 hover:from-blue-700 hover:via-purple-700 hover:to-pink-700 dark:from-blue-500 dark:via-purple-500 dark:to-pink-500 dark:hover:from-blue-600 dark:hover:via-purple-600 dark:hover:to-pink-600 text-white px-8 py-3 rounded-lg shadow-lg hover:shadow-xl transition-all duration-200"
+              className="gsap-button bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 hover:from-blue-700 hover:via-purple-700 hover:to-pink-700 dark:from-blue-500 dark:via-purple-500 dark:to-pink-500 dark:hover:from-blue-600 dark:hover:via-purple-600 dark:hover:to-pink-600 text-white px-8 py-3 rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-110"
               onClick={() => window.open('https://github.com', '_blank')}
             >
               <Github className="mr-2" size={20} />
