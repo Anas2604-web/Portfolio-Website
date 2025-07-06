@@ -45,7 +45,7 @@ const Hero = () => {
           
           <p className="hero-description text-lg text-gray-500 dark:text-gray-400 mb-12 max-w-2xl mx-auto">
             Passionate about creating innovative solutions and building amazing web applications. 
-            Fresh graduate with strong foundation in modern web technologies and eager to contribute to impactful projects.
+            Currently Pursuing Btech with strong foundation in modern web technologies and eager to contribute to impactful projects.
           </p>
           
           <div className="hero-buttons flex flex-col sm:flex-row gap-4 justify-center mb-12">
