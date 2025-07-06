@@ -2,8 +2,22 @@ import { Github, Link, Star, Eye, GitFork } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { useEffect, useRef } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const Projects = () => {
+  const sectionRef = useRef<HTMLElement>(null);
+  const titleRef = useRef<HTMLHeadingElement>(null);
+  const subtitleRef = useRef<HTMLParagraphElement>(null);
+  const featuredTitleRef = useRef<HTMLHeadingElement>(null);
+  const moreTitleRef = useRef<HTMLHeadingElement>(null);
+  const ctaRef = useRef<HTMLDivElement>(null);
+  const featuredCardsRef = useRef<HTMLDivElement[]>([]);
+  const otherCardsRef = useRef<HTMLDivElement[]>([]);
+
   const projects = [
     {
       title: "EcoCommerce Platform",
@@ -82,6 +96,190 @@ const Projects = () => {
   const featuredProjects = projects.filter(project => project.featured);
   const otherProjects = projects.filter(project => !project.featured);
 
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // Set initial states
+      gsap.set([titleRef.current, subtitleRef.current, featuredTitleRef.current, moreTitleRef.current, ctaRef.current], {
+        opacity: 0,
+        y: 50
+      });
+
+      gsap.set([...featuredCardsRef.current, ...otherCardsRef.current], {
+        opacity: 0,
+        y: 80,
+        scale: 0.9
+      });
+
+      // Main title animation
+      gsap.to(titleRef.current, {
+        opacity: 1,
+        y: 0,
+        duration: 1.2,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: titleRef.current,
+          start: "top 80%",
+          toggleActions: "play none none reverse"
+        }
+      });
+
+      // Subtitle animation
+      gsap.to(subtitleRef.current, {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        ease: "power3.out",
+        delay: 0.3,
+        scrollTrigger: {
+          trigger: subtitleRef.current,
+          start: "top 80%",
+          toggleActions: "play none none reverse"
+        }
+      });
+
+      // Featured section title
+      gsap.to(featuredTitleRef.current, {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: featuredTitleRef.current,
+          start: "top 80%",
+          toggleActions: "play none none reverse"
+        }
+      });
+
+      // Featured project cards
+      featuredCardsRef.current.forEach((card, index) => {
+        if (card) {
+          gsap.to(card, {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.8,
+            ease: "back.out(1.7)",
+            delay: index * 0.2,
+            scrollTrigger: {
+              trigger: card,
+              start: "top 85%",
+              toggleActions: "play none none reverse"
+            }
+          });
+
+          // Add hover animations
+          card.addEventListener('mouseenter', () => {
+            gsap.to(card, {
+              y: -10,
+              scale: 1.05,
+              duration: 0.4,
+              ease: "power2.out"
+            });
+          });
+
+          card.addEventListener('mouseleave', () => {
+            gsap.to(card, {
+              y: 0,
+              scale: 1,
+              duration: 0.4,
+              ease: "power2.out"
+            });
+          });
+        }
+      });
+
+      // More projects section title
+      gsap.to(moreTitleRef.current, {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: moreTitleRef.current,
+          start: "top 80%",
+          toggleActions: "play none none reverse"
+        }
+      });
+
+      // Other project cards
+      otherCardsRef.current.forEach((card, index) => {
+        if (card) {
+          gsap.to(card, {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.8,
+            ease: "back.out(1.7)",
+            delay: index * 0.15,
+            scrollTrigger: {
+              trigger: card,
+              start: "top 85%",
+              toggleActions: "play none none reverse"
+            }
+          });
+
+          // Add hover animations
+          card.addEventListener('mouseenter', () => {
+            gsap.to(card, {
+              y: -8,
+              scale: 1.03,
+              duration: 0.3,
+              ease: "power2.out"
+            });
+          });
+
+          card.addEventListener('mouseleave', () => {
+            gsap.to(card, {
+              y: 0,
+              scale: 1,
+              duration: 0.3,
+              ease: "power2.out"
+            });
+          });
+        }
+      });
+
+      // CTA section
+      gsap.to(ctaRef.current, {
+        opacity: 1,
+        y: 0,
+        duration: 1.2,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: ctaRef.current,
+          start: "top 80%",
+          toggleActions: "play none none reverse"
+        }
+      });
+
+      // Parallax effect for background elements
+      gsap.to(".parallax-bg-1", {
+        yPercent: -30,
+        ease: "none",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: 1
+        }
+      });
+
+      gsap.to(".parallax-bg-2", {
+        yPercent: -50,
+        ease: "none",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: 1.5
+        }
+      });
+
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
   const getStatusColor = (status: string) => {
     switch (status) {
       case "Completed": return "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400";
@@ -99,8 +297,17 @@ const Projects = () => {
     }
   };
 
-  const ProjectCard = ({ project, featured = false }: { project: any, featured?: boolean }) => (
-    <Card className={`group overflow-hidden bg-white/90 backdrop-blur-sm dark:bg-slate-800/90 border-gray-200 dark:border-gray-700 shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 hover:scale-105 ${featured ? 'lg:col-span-1' : ''}`}>
+  const ProjectCard = ({ project, featured = false, index }: { project: any, featured?: boolean, index: number }) => (
+    <Card 
+      ref={(el) => {
+        if (featured) {
+          featuredCardsRef.current[index] = el!;
+        } else {
+          otherCardsRef.current[index] = el!;
+        }
+      }}
+      className={`group overflow-hidden bg-white/90 backdrop-blur-sm dark:bg-slate-800/90 border-gray-200 dark:border-gray-700 shadow-xl transition-all duration-500 ${featured ? 'lg:col-span-1' : ''}`}
+    >
       <div className="relative overflow-hidden">
         <img
           src={project.image}
@@ -118,7 +325,7 @@ const Projects = () => {
         </div>
         {project.featured && (
           <div className="absolute top-4 right-4 z-10">
-            <Badge className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white animate-pulse">
+            <Badge className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white">
               ⭐ Featured
             </Badge>
           </div>
@@ -161,7 +368,7 @@ const Projects = () => {
           <Button
             variant="outline"
             size="sm"
-            className="flex items-center gap-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-300 border-gray-300 dark:border-gray-600 hover:scale-105 group/btn"
+            className="flex items-center gap-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-300 border-gray-300 dark:border-gray-600 group/btn"
             onClick={() => window.open(project.github, '_blank')}
           >
             <Github size={16} className="group-hover/btn:rotate-12 transition-transform duration-300" />
@@ -169,7 +376,7 @@ const Projects = () => {
           </Button>
           <Button
             size="sm"
-            className="flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 dark:from-blue-500 dark:to-purple-500 dark:hover:from-blue-600 dark:hover:to-purple-600 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 group/btn"
+            className="flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 dark:from-blue-500 dark:to-purple-500 dark:hover:from-blue-600 dark:hover:to-purple-600 transition-all duration-300 shadow-lg hover:shadow-xl group/btn"
             onClick={() => window.open(project.live, '_blank')}
           >
             <Link size={16} className="group-hover/btn:rotate-12 transition-transform duration-300" />
@@ -181,19 +388,19 @@ const Projects = () => {
   );
 
   return (
-    <section id="projects" className="py-20 min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-purple-50 dark:from-slate-900 dark:via-blue-900 dark:to-purple-900 transition-colors duration-500 relative overflow-hidden">
+    <section ref={sectionRef} id="projects" className="py-20 min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-purple-50 dark:from-slate-900 dark:via-blue-900 dark:to-purple-900 transition-colors duration-500 relative overflow-hidden">
       {/* Enhanced animated background */}
       <div className="absolute inset-0 opacity-20">
-        <div className="absolute top-20 left-10 w-96 h-96 bg-gradient-to-br from-blue-400 to-purple-600 rounded-full mix-blend-multiply filter blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-20 right-10 w-80 h-80 bg-gradient-to-br from-purple-400 to-pink-600 rounded-full mix-blend-multiply filter blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+        <div className="parallax-bg-1 absolute top-20 left-10 w-96 h-96 bg-gradient-to-br from-blue-400 to-purple-600 rounded-full mix-blend-multiply filter blur-3xl"></div>
+        <div className="parallax-bg-2 absolute bottom-20 right-10 w-80 h-80 bg-gradient-to-br from-purple-400 to-pink-600 rounded-full mix-blend-multiply filter blur-3xl"></div>
       </div>
       
       <div className="container mx-auto px-6 max-w-7xl relative z-10">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-6xl font-bold text-gray-800 dark:text-white mb-6 animate-fade-in">
+          <h2 ref={titleRef} className="text-4xl md:text-6xl font-bold text-gray-800 dark:text-white mb-6">
             Featured <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">Projects</span>
           </h2>
-          <p className="text-gray-600 dark:text-gray-300 max-w-3xl mx-auto text-lg leading-relaxed animate-fade-in">
+          <p ref={subtitleRef} className="text-gray-600 dark:text-gray-300 max-w-3xl mx-auto text-lg leading-relaxed">
             Here's a showcase of my recent work, demonstrating proficiency in modern web technologies, 
             clean code practices, and user-centered design principles.
           </p>
@@ -201,37 +408,33 @@ const Projects = () => {
 
         {/* Featured Projects */}
         <div className="mb-20">
-          <h3 className="text-2xl font-semibold text-gray-800 dark:text-white mb-8 text-center flex items-center justify-center gap-3">
-            <span className="text-3xl animate-bounce">🌟</span> 
+          <h3 ref={featuredTitleRef} className="text-2xl font-semibold text-gray-800 dark:text-white mb-8 text-center flex items-center justify-center gap-3">
+            <span className="text-3xl">🌟</span> 
             Featured Work
           </h3>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {featuredProjects.map((project, index) => (
-              <div key={index} className="animate-fade-in" style={{ animationDelay: `${index * 0.1}s` }}>
-                <ProjectCard project={project} featured={true} />
-              </div>
+              <ProjectCard key={index} project={project} featured={true} index={index} />
             ))}
           </div>
         </div>
 
         {/* Other Projects */}
         <div className="mb-16">
-          <h3 className="text-2xl font-semibold text-gray-800 dark:text-white mb-8 text-center flex items-center justify-center gap-3">
-            <span className="text-3xl animate-pulse">💼</span> 
+          <h3 ref={moreTitleRef} className="text-2xl font-semibold text-gray-800 dark:text-white mb-8 text-center flex items-center justify-center gap-3">
+            <span className="text-3xl">💼</span> 
             More Projects
           </h3>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {otherProjects.map((project, index) => (
-              <div key={index} className="animate-fade-in" style={{ animationDelay: `${0.3 + index * 0.1}s` }}>
-                <ProjectCard project={project} />
-              </div>
+              <ProjectCard key={index} project={project} index={index} />
             ))}
           </div>
         </div>
 
         {/* Call to Action */}
-        <div className="text-center animate-fade-in" style={{ animationDelay: '0.8s' }}>
-          <div className="bg-gradient-to-r from-blue-50 via-purple-50 to-pink-50 dark:from-blue-900/20 dark:via-purple-900/20 dark:to-pink-900/20 rounded-2xl p-8 shadow-2xl hover:shadow-3xl transition-all duration-500 border border-gray-200 dark:border-gray-700 hover:scale-105 backdrop-blur-sm">
+        <div ref={ctaRef} className="text-center">
+          <div className="bg-gradient-to-r from-blue-50 via-purple-50 to-pink-50 dark:from-blue-900/20 dark:via-purple-900/20 dark:to-pink-900/20 rounded-2xl p-8 shadow-2xl hover:shadow-3xl transition-all duration-500 border border-gray-200 dark:border-gray-700 backdrop-blur-sm">
             <h3 className="text-2xl font-semibold text-gray-800 dark:text-white mb-4">
               Want to see more of my work?
             </h3>
@@ -239,7 +442,7 @@ const Projects = () => {
               Check out my GitHub profile for more projects, contributions, and open-source work.
             </p>
             <Button
-              className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 hover:from-blue-700 hover:via-purple-700 hover:to-pink-700 text-white px-8 py-3 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 group"
+              className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 hover:from-blue-700 hover:via-purple-700 hover:to-pink-700 text-white px-8 py-3 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 group"
               onClick={() => window.open('https://github.com', '_blank')}
             >
               <Github className="mr-2 group-hover:rotate-12 transition-transform duration-300" size={20} />
