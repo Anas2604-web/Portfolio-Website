@@ -4,196 +4,68 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-export const initGSAPAnimations = () => {
-  // Hero section animations
-  const tl = gsap.timeline();
-  
-  tl.from(".hero-image", {
-    scale: 0,
-    rotation: 180,
-    duration: 1.2,
-    ease: "back.out(1.7)"
-  })
-  .from(".hero-title", {
-    y: 100,
+// Utility function to create smooth scroll animations
+export const createScrollAnimation = (element: HTMLElement, options: gsap.TweenVars) => {
+  return gsap.from(element, {
     opacity: 0,
-    duration: 1,
-    ease: "power3.out"
-  }, "-=0.5")
-  .from(".hero-subtitle", {
     y: 50,
-    opacity: 0,
     duration: 0.8,
-    ease: "power2.out"
-  }, "-=0.3")
-  .from(".hero-description", {
-    y: 30,
-    opacity: 0,
-    duration: 0.6,
-    ease: "power2.out"
-  }, "-=0.2")
-  .from(".hero-buttons", {
-    y: 40,
-    opacity: 0,
-    duration: 0.8,
-    ease: "power2.out"
-  }, "-=0.3")
-  .from(".hero-social", {
-    scale: 0,
-    opacity: 0,
-    duration: 0.6,
-    ease: "back.out(1.7)",
-    stagger: 0.1
-  }, "-=0.4");
+    ease: "power3.out",
+    scrollTrigger: {
+      trigger: element,
+      start: "top 80%",
+      toggleActions: "play none none reverse"
+    },
+    ...options
+  });
+};
 
-  // Floating animation for profile image
-  gsap.to(".hero-image", {
-    y: -20,
-    duration: 2,
-    ease: "power1.inOut",
-    yoyo: true,
-    repeat: -1
+// Utility function to create stagger animations
+export const createStaggerAnimation = (elements: Element[], options: gsap.TweenVars) => {
+  return gsap.from(elements, {
+    opacity: 0,
+    y: 50,
+    duration: 0.6,
+    ease: "power2.out",
+    stagger: 0.1,
+    scrollTrigger: {
+      trigger: elements[0],
+      start: "top 80%",
+      toggleActions: "play none none reverse"
+    },
+    ...options
+  });
+};
+
+// Utility function to create hover animations
+export const addHoverAnimation = (element: HTMLElement, hoverVars: gsap.TweenVars, exitVars: gsap.TweenVars) => {
+  element.addEventListener('mouseenter', () => {
+    gsap.to(element, {
+      duration: 0.3,
+      ease: "power2.out",
+      ...hoverVars
+    });
   });
 
-  // Parallax effect for background elements
-  gsap.to(".parallax-bg", {
-    yPercent: -50,
+  element.addEventListener('mouseleave', () => {
+    gsap.to(element, {
+      duration: 0.3,
+      ease: "power2.out",
+      ...exitVars
+    });
+  });
+};
+
+// Utility function to create parallax effect
+export const createParallaxEffect = (element: HTMLElement, speed: number = -50) => {
+  return gsap.to(element, {
+    yPercent: speed,
     ease: "none",
     scrollTrigger: {
-      trigger: ".parallax-bg",
+      trigger: element,
       start: "top bottom",
       end: "bottom top",
       scrub: true
     }
-  });
-};
-
-  export const initScrollAnimations = () => {
-  // About section animations
-  gsap.from(".about-title", {
-    y: 80,
-    opacity: 0,
-    duration: 1,
-    ease: "power3.out",
-    scrollTrigger: {
-      trigger: ".about-title",
-      start: "top 90%", // only triggers when scrolled into view
-      toggleActions: "play none none none",
-      immediateRender: false,
-    }
-  });
-
-  gsap.from(".about-content", {
-    y: 60,
-    opacity: 0,
-    duration: 0.8,
-    ease: "power2.out",
-    stagger: 0.2,
-    scrollTrigger: {
-      trigger: ".about-content",
-      start: "top 90%",
-      toggleActions: "play none none none",
-      immediateRender: false,
-    }
-  });
-
-  gsap.from(".skill-tag", {
-    scale: 0,
-    opacity: 0,
-    duration: 0.5,
-    ease: "back.out(1.7)",
-    stagger: 0.05,
-    scrollTrigger: {
-      trigger: ".skill-tag",
-      start: "top 90%",
-      toggleActions: "play none none none",
-      immediateRender: false,
-    }
-  });
-};
-
-
-  // Projects section animations
-  gsap.from(".project-card", {
-    y: 100,
-    opacity: 0,
-    duration: 0.8,
-    ease: "power3.out",
-    stagger: 0.2,
-    scrollTrigger: {
-      trigger: ".project-card",
-      start: "top 85%",
-      toggleActions: "play none none reverse"
-    }
-  });
-
-  // Contact section animations
-  gsap.from(".contact-card", {
-    y: 80,
-    opacity: 0,
-    rotation: 5,
-    duration: 0.8,
-    ease: "back.out(1.7)",
-    stagger: 0.15,
-    scrollTrigger: {
-      trigger: ".contact-card",
-      start: "top 85%",
-      toggleActions: "play none none reverse"
-    }
-  });
-
-
-export const addHoverAnimations = () => {
-  // Project card hover effects
-  const projectCards = document.querySelectorAll(".project-card");
-  projectCards.forEach((card) => {
-    const image = card.querySelector(".project-image");
-    const content = card.querySelector(".project-content");
-    
-    card.addEventListener("mouseenter", () => {
-      gsap.to(card, { y: -10, duration: 0.3, ease: "power2.out" });
-      gsap.to(image, { scale: 1.05, duration: 0.3, ease: "power2.out" });
-      gsap.to(content, { y: -5, duration: 0.3, ease: "power2.out" });
-    });
-    
-    card.addEventListener("mouseleave", () => {
-      gsap.to(card, { y: 0, duration: 0.3, ease: "power2.out" });
-      gsap.to(image, { scale: 1, duration: 0.3, ease: "power2.out" });
-      gsap.to(content, { y: 0, duration: 0.3, ease: "power2.out" });
-    });
-  });
-
-  // Button hover effects
-  const buttons = document.querySelectorAll(".gsap-button");
-  buttons.forEach((button) => {
-    button.addEventListener("mouseenter", () => {
-      gsap.to(button, { scale: 1.05, duration: 0.2, ease: "power2.out" });
-    });
-    
-    button.addEventListener("mouseleave", () => {
-      gsap.to(button, { scale: 1, duration: 0.2, ease: "power2.out" });
-    });
-  });
-
-  // Social icon hover effects
-  const socialIcons = document.querySelectorAll(".social-icon");
-  socialIcons.forEach((icon) => {
-    icon.addEventListener("mouseenter", () => {
-      gsap.to(icon, { 
-        scale: 1.2, 
-        rotation: 360, 
-        duration: 0.4, 
-        ease: "back.out(1.7)" 
-      });
-    });
-    
-    icon.addEventListener("mouseleave", () => {
-      gsap.to(icon, { 
-        scale: 1, 
-        rotation: 0, 
-        duration: 0.3, 
-        ease: "power2.out" 
-      });
-    });
   });
 };
