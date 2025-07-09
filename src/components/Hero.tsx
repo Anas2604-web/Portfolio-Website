@@ -178,7 +178,7 @@ const Hero = () => {
           <div className="mb-8">
             <img
               ref={imageRef}
-              src="public/profile2.png" 
+              src="/profile2.png" 
               alt="Profile"
               className="w-32 h-32 rounded-full mx-auto mb-6 border-4 border-white dark:border-gray-700 shadow-2xl"
             />

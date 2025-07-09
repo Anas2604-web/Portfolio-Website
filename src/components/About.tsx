@@ -28,7 +28,7 @@ const About = () => {
     },
     { 
       name: "TypeScript", 
-      level: 84, 
+      level: 80, 
       color: "from-blue-500 to-blue-600",
       logo: "🔷",
       description: "Type safety, Advanced generics, Enterprise apps"
@@ -49,17 +49,17 @@ const About = () => {
     },
     { 
       name: "Python", 
-      level: 75, 
+      level: 65, 
       color: "from-blue-400 to-purple-500",
       logo: "🐍",
-      description: "Django, FastAPI, Data analysis, ML basics"
+      description: "Basic Knowledge, Syntax and Libraries"
     },
     { 
       name: "Java", 
-      level: 70, 
+      level: 76, 
       color: "from-red-400 to-red-600",
       logo: "☕",
-      description: "Spring Boot, OOP, Enterprise patterns"
+      description: "Data Structures & Algorithms, OOP, Collections" 
     },
     { 
       name: "HTML/CSS", 
@@ -70,7 +70,7 @@ const About = () => {
     },
     { 
       name: "Git", 
-      level: 88, 
+      level: 86, 
       color: "from-gray-600 to-gray-800",
       logo: "🌿",
       description: "Version control, Branching, Collaboration"
@@ -91,14 +91,14 @@ const About = () => {
     },
     { 
       name: "Express.js", 
-      level: 85, 
+      level: 88, 
       color: "from-gray-500 to-gray-700",
       logo: "🚀",
       description: "Middleware, Routing, RESTful services"
     },
     { 
       name: "REST APIs", 
-      level: 90, 
+      level: 70, 
       color: "from-pink-400 to-pink-600",
       logo: "🔗",
       description: "Design patterns, Documentation, Testing"
@@ -106,12 +106,7 @@ const About = () => {
   ];
 
   const achievements = [
-    { 
-      icon: Trophy, 
-      title: "Dean's List", 
-      description: "Consistent academic excellence throughout degree",
-      color: "from-yellow-400 to-orange-500"
-    },
+    
     { 
       icon: Star, 
       title: "5+ Projects", 
