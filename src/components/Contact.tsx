@@ -2,9 +2,11 @@
 import { Github, Linkedin, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, Suspense } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { Canvas } from "@react-three/fiber";
+import ParticleField from "@/components/3d/ParticleField";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -137,6 +139,18 @@ const Contact = () => {
 
   return (
     <section ref={sectionRef} id="contact" className="py-20 bg-white dark:bg-slate-800 transition-colors duration-300 relative overflow-hidden">
+      {/* 3D Particle Background */}
+      <div className="absolute inset-0 opacity-30">
+        <Canvas
+          camera={{ position: [0, 0, 10], fov: 60 }}
+          style={{ background: 'transparent' }}
+        >
+          <Suspense fallback={null}>
+            <ParticleField />
+          </Suspense>
+        </Canvas>
+      </div>
+
       {/* Background decoration */}
       <div className="contact-bg absolute top-0 left-1/2 w-96 h-96 bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900/20 dark:to-purple-900/20 rounded-full -translate-y-48 -translate-x-48 opacity-40"></div>
       
@@ -178,7 +192,7 @@ const Contact = () => {
               ref={(el) => {
                 if (el) contactCardsRef.current[index] = el;
               }}
-              className="text-center bg-white dark:bg-slate-700 border-gray-200 dark:border-gray-600 shadow-xl hover:shadow-2xl transition-all duration-300"
+              className="text-center bg-white/80 dark:bg-slate-700/80 backdrop-blur-sm border-gray-200 dark:border-gray-600 shadow-xl hover:shadow-2xl transition-all duration-300"
             >
               <CardContent className="p-6">
                 <div className="bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900/50 dark:to-purple-900/50 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
@@ -200,7 +214,7 @@ const Contact = () => {
         </div>
 
         <div ref={ctaRef}>
-          <div className="bg-gradient-to-r from-blue-50 via-purple-50 to-pink-50 dark:from-blue-900/20 dark:via-purple-900/20 dark:to-pink-900/20 rounded-lg p-8 shadow-xl hover:shadow-2xl transition-all duration-300">
+          <div className="bg-gradient-to-r from-blue-50 via-purple-50 to-pink-50 dark:from-blue-900/20 dark:via-purple-900/20 dark:to-pink-900/20 backdrop-blur-sm rounded-lg p-8 shadow-xl hover:shadow-2xl transition-all duration-300">
             <h3 className="text-2xl font-semibold text-gray-800 dark:text-white mb-4">
               Ready to start your next project?
             </h3>

@@ -1,8 +1,9 @@
-
 import { Code, Book, Users, Zap, Star, Trophy } from "lucide-react";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, Suspense } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { Canvas } from "@react-three/fiber";
+import SkillsOrb from "@/components/3d/SkillsOrb";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -461,12 +462,24 @@ const About = () => {
           </div>
         </div>
 
-        {/* Enhanced Technical Skills Section */}
+        {/* Enhanced Technical Skills Section with 3D */}
         <div className="mb-12">
           <h3 ref={skillsTitleRef} className="text-4xl font-semibold text-gray-800 dark:text-white mb-16 text-center">
             Technical <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">Skills</span>
           </h3>
           
+          {/* 3D Skills Visualization */}
+          <div className="h-96 mb-12 rounded-2xl overflow-hidden bg-gradient-to-br from-slate-900 to-blue-900 dark:from-slate-800 dark:to-blue-800">
+            <Canvas
+              camera={{ position: [0, 0, 5], fov: 60 }}
+              style={{ background: 'transparent' }}
+            >
+              <Suspense fallback={null}>
+                <SkillsOrb />
+              </Suspense>
+            </Canvas>
+          </div>
+
           {/* Skills with enhanced cards and logos */}
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
             {skills.map((skill, index) => (

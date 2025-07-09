@@ -1,9 +1,11 @@
 
 import { Github, Linkedin, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, Suspense } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { Canvas } from "@react-three/fiber";
+import FloatingGeometry from "@/components/3d/FloatingGeometry";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -166,8 +168,20 @@ const Hero = () => {
 
   return (
     <section ref={sectionRef} id="home" className="relative pt-20 pb-16 px-6 bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-900 dark:to-blue-900 transition-colors duration-300 overflow-hidden">
+      {/* 3D Background */}
+      <div className="absolute inset-0 opacity-60">
+        <Canvas
+          camera={{ position: [0, 0, 5], fov: 75 }}
+          style={{ background: 'transparent' }}
+        >
+          <Suspense fallback={null}>
+            <FloatingGeometry />
+          </Suspense>
+        </Canvas>
+      </div>
+
       {/* Animated background elements */}
-      <div className="parallax-bg absolute inset-0 opacity-20">
+      <div className="parallax-bg absolute inset-0 opacity-10">
         <div className="absolute top-20 left-10 w-64 h-64 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl animate-pulse"></div>
         <div className="absolute top-40 right-10 w-72 h-72 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl animate-pulse delay-700"></div>
         <div className="absolute bottom-20 left-1/2 w-80 h-80 bg-pink-500 rounded-full mix-blend-multiply filter blur-xl animate-pulse delay-1000"></div>
