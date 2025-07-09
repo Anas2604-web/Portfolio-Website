@@ -140,14 +140,17 @@ const Contact = () => {
   return (
     <section ref={sectionRef} id="contact" className="py-20 bg-white dark:bg-slate-800 transition-colors duration-300 relative overflow-hidden">
       {/* 3D Particle Background */}
-      <div className="absolute inset-0 opacity-20">
+      <div className="absolute inset-0 opacity-20 pointer-events-none">
         <Canvas
           camera={{ position: [0, 0, 5], fov: 60 }}
-          style={{ background: 'transparent' }}
-          gl={{ antialias: true, alpha: true }}
-          onCreated={({ gl }) => {
-            gl.setClearColor('#000000', 0);
+          gl={{ 
+            antialias: false, 
+            alpha: true,
+            powerPreference: "high-performance",
+            stencil: false,
+            depth: false
           }}
+          dpr={[1, 1.5]}
         >
           <Suspense fallback={null}>
             <ParticleField />
@@ -156,7 +159,7 @@ const Contact = () => {
       </div>
 
       {/* Background decoration */}
-      <div className="contact-bg absolute top-0 left-1/2 w-96 h-96 bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900/20 dark:to-purple-900/20 rounded-full -translate-y-48 -translate-x-48 opacity-40"></div>
+      <div className="absolute top-0 left-1/2 w-96 h-96 bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900/20 dark:to-purple-900/20 rounded-full -translate-y-48 -translate-x-48 opacity-40"></div>
       
       <div className="container mx-auto px-6 max-w-4xl relative z-10">
         <div className="text-center mb-16">

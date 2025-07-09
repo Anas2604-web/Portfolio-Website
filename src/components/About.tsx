@@ -1,3 +1,4 @@
+
 import { Code, Database, Globe, Palette, Zap, Lightbulb } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { useEffect, useRef, Suspense } from "react";
@@ -148,12 +149,15 @@ const About = () => {
           <div className="relative">
             <div className="h-96 bg-gradient-to-br from-blue-100/50 to-purple-100/50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-2xl shadow-2xl overflow-hidden">
               <Canvas
-                camera={{ position: [0, 0, 4], fov: 50 }}
-                style={{ background: 'transparent' }}
-                gl={{ antialias: true, alpha: true }}
-                onCreated={({ gl }) => {
-                  gl.setClearColor('#000000', 0);
+                camera={{ position: [0, 0, 4], fov: 60 }}
+                gl={{ 
+                  antialias: false, 
+                  alpha: true,
+                  powerPreference: "high-performance",
+                  stencil: false,
+                  depth: false
                 }}
+                dpr={[1, 1.5]}
               >
                 <Suspense fallback={null}>
                   <SkillsOrb />

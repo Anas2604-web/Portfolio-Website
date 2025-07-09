@@ -1,66 +1,62 @@
 
 import { useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { Sphere, Box, Octahedron, Torus, Float, OrbitControls } from '@react-three/drei';
 import * as THREE from 'three';
 
-const FloatingShape = ({ position, shape, color, speed }: any) => {
+const FloatingShape = ({ position, color, shapeType }: { position: [number, number, number], color: string, shapeType: 'box' | 'sphere' | 'torus' }) => {
   const meshRef = useRef<THREE.Mesh>(null);
   
   useFrame((state, delta) => {
     if (meshRef.current) {
-      meshRef.current.rotation.x += delta * speed * 0.5;
-      meshRef.current.rotation.y += delta * speed * 0.3;
+      meshRef.current.rotation.x += delta * 0.3;
+      meshRef.current.rotation.y += delta * 0.4;
+      meshRef.current.position.y = position[1] + Math.sin(state.clock.elapsedTime + position[0]) * 0.2;
     }
   });
 
-  const ShapeComponent = shape;
-  
+  const getGeometry = () => {
+    switch (shapeType) {
+      case 'box':
+        return new THREE.BoxGeometry(0.5, 0.5, 0.5);
+      case 'sphere':
+        return new THREE.SphereGeometry(0.3, 16, 16);
+      case 'torus':
+        return new THREE.TorusGeometry(0.3, 0.1, 8, 16);
+      default:
+        return new THREE.BoxGeometry(0.5, 0.5, 0.5);
+    }
+  };
+
   return (
-    <Float speed={1} rotationIntensity={0.3} floatIntensity={0.3}>
-      <ShapeComponent
-        ref={meshRef}
-        position={position}
-        args={shape === Sphere ? [0.3] : shape === Box ? [0.6, 0.6, 0.6] : shape === Torus ? [0.4, 0.15, 8, 16] : [0.5]}
-      >
-        <meshStandardMaterial
-          color={color}
-          transparent
-          opacity={0.7}
-          roughness={0.2}
-          metalness={0.6}
-        />
-      </ShapeComponent>
-    </Float>
+    <mesh ref={meshRef} position={position}>
+      <primitive object={getGeometry()} />
+      <meshStandardMaterial
+        color={color}
+        transparent
+        opacity={0.7}
+        roughness={0.3}
+        metalness={0.5}
+      />
+    </mesh>
   );
 };
 
 const FloatingGeometry = () => {
   const shapes = [
-    { position: [-2, 1, -1], shape: Sphere, color: "#3b82f6", speed: 1 },
-    { position: [2, -0.5, -1], shape: Box, color: "#8b5cf6", speed: 0.8 },
-    { position: [-1, -1.5, -2], shape: Octahedron, color: "#ec4899", speed: 1.2 },
-    { position: [1.5, 1.5, -1], shape: Torus, color: "#06b6d4", speed: 0.9 },
+    { position: [-2, 1, -1] as [number, number, number], color: "#3b82f6", shapeType: "sphere" as const },
+    { position: [2, -0.5, -1] as [number, number, number], color: "#8b5cf6", shapeType: "box" as const },
+    { position: [-1, -1.5, -2] as [number, number, number], color: "#ec4899", shapeType: "torus" as const },
+    { position: [1.5, 1.5, -1] as [number, number, number], color: "#06b6d4", shapeType: "sphere" as const },
   ];
 
   return (
     <>
-      <ambientLight intensity={0.3} />
-      <pointLight position={[5, 5, 5]} intensity={0.8} />
-      <pointLight position={[-5, -5, -5]} intensity={0.3} color="#8b5cf6" />
+      <ambientLight intensity={0.4} />
+      <pointLight position={[5, 5, 5]} intensity={0.6} />
       
       {shapes.map((shapeProps, index) => (
         <FloatingShape key={index} {...shapeProps} />
       ))}
-      
-      <OrbitControls
-        enableZoom={false}
-        enablePan={false}
-        autoRotate
-        autoRotateSpeed={0.3}
-        minPolarAngle={Math.PI / 4}
-        maxPolarAngle={Math.PI - Math.PI / 4}
-      />
     </>
   );
 };
