@@ -168,11 +168,15 @@ const Hero = () => {
 
   return (
     <section ref={sectionRef} id="home" className="relative pt-20 pb-16 px-6 bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-900 dark:to-blue-900 transition-colors duration-300 overflow-hidden">
-      {/* 3D Background */}
-      <div className="absolute inset-0 opacity-60">
+      {/* 3D Background - Error Boundary */}
+      <div className="absolute inset-0 opacity-40">
         <Canvas
-          camera={{ position: [0, 0, 5], fov: 75 }}
+          camera={{ position: [0, 0, 4], fov: 60 }}
           style={{ background: 'transparent' }}
+          gl={{ antialias: true, alpha: true }}
+          onCreated={({ gl }) => {
+            gl.setClearColor('#000000', 0);
+          }}
         >
           <Suspense fallback={null}>
             <FloatingGeometry />
@@ -192,7 +196,7 @@ const Hero = () => {
           <div className="mb-8">
             <img
               ref={imageRef}
-              src="public/profile2.png" 
+              src="/profile2.png" 
               alt="Profile"
               className="w-32 h-32 rounded-full mx-auto mb-6 border-4 border-white dark:border-gray-700 shadow-2xl"
             />
