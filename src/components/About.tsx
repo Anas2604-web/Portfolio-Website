@@ -1,5 +1,5 @@
 
-import { Code, Book, Users, Zap, Star, Trophy } from "lucide-react";
+import { Code, Book, Users, Zap, Star, Trophy, BadgeCheck, GraduationCap ,BrainCircuit, Rocket, ShieldCheck} from "lucide-react";
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -106,7 +106,12 @@ const About = () => {
   ];
 
   const achievements = [
-    
+    {
+    icon: Trophy, 
+    title: "150+ LeetCode Problems",
+    description: "Strong foundation in DSA for coding interviews",
+    color: "from-yellow-400 to-orange-500"
+  },
     { 
       icon: Star, 
       title: "5+ Projects", 
@@ -118,29 +123,61 @@ const About = () => {
       title: "Fast Learner", 
       description: "Quick technology adoption and implementation",
       color: "from-green-400 to-cyan-500"
-    }
+    },
+    {
+    icon: BadgeCheck,
+    title: "Cisco C++ Badge",
+    description: "Earned from Cisco Networking Academy",
+    color: "from-indigo-400 to-pink-500"
+  },
+  {
+    icon: GraduationCap,
+    title: "NPTEL Java Certified",
+    description: "Completed NPTEL Java Programming course",
+    color: "from-emerald-400 to-teal-500"
+  }
   ];
 
-  const coreStrengths = [
-    {
-      icon: Code,
-      title: "Clean Code",
-      description: "Writing maintainable, well-documented code following best practices and design patterns",
-      color: "from-blue-500 to-indigo-600"
-    },
-    {
-      icon: Book,
-      title: "Quick Learner",
-      description: "Passionate about learning new technologies and staying updated with industry trends",
-      color: "from-purple-500 to-pink-600"
-    },
-    {
-      icon: Users,
-      title: "Team Player",
-      description: "Strong communication skills and experience working in collaborative environments",
-      color: "from-green-500 to-teal-600"
-    }
-  ];
+
+const coreStrengths = [
+  {
+    icon: Code,
+    title: "Clean Code",
+    description: "Writing maintainable, well-documented code following best practices and design patterns",
+    color: "from-blue-500 to-indigo-600"
+  },
+  {
+    icon: Book,
+    title: "Quick Learner",
+    description: "Passionate about learning new technologies and staying updated with industry trends",
+    color: "from-purple-500 to-pink-600"
+  },
+  {
+    icon: Users,
+    title: "Team Player",
+    description: "Strong communication skills and experience working in collaborative environments",
+    color: "from-green-500 to-teal-600"
+  },
+  {
+    icon: BrainCircuit,
+    title: "DSA Skills",
+    description: "Solved 150+ LeetCode problems with focus on patterns and problem-solving techniques",
+    color: "from-yellow-500 to-orange-500"
+  },
+  {
+    icon: Rocket,
+    title: "Project Execution",
+    description: "Shipped real-world full-stack apps with modern tech stacks like React, Node, Firebase",
+    color: "from-pink-500 to-red-500"
+  },
+  {
+    icon: ShieldCheck,
+    title: "Consistent & Reliable",
+    description: "Disciplined with deadlines, focused on delivering quality over quantity",
+    color: "from-gray-500 to-slate-700"
+  }
+];
+
 
   useEffect(() => {
     const ctx = gsap.context(() => {

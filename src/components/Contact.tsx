@@ -154,8 +154,8 @@ const Contact = () => {
             {
               icon: Mail,
               title: "Email",
-              subtitle: "john.doe@email.com",
-              action: () => window.open('mailto:john.doe@email.com'),
+              subtitle: "annaasskhan6@gmail.com",
+              action: () => window.open('mailto:annaasskhan6@gmail.com'),
               buttonText: "Send Email"
             },
             {
